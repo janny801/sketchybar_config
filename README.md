@@ -4,8 +4,6 @@ Personal SketchyBar configuration for macOS.
 
 This setup provides a clean, minimal status bar with dynamic updates, Google Calendar integration, and custom system indicators.
 
----
-
 ## Features
 
 - Dynamic spaces (Yabai integration)
@@ -18,8 +16,6 @@ This setup provides a clean, minimal status bar with dynamic updates, Google Cal
 - Bluetooth indicator
 - Battery percentage
 - Minimal transparent styling
-
----
 
 ## Folder Structure
 
@@ -39,8 +35,6 @@ sketchybar_config/
 **Note:**  
 The `google/` folder containing API credentials is intentionally excluded from this repository.
 
----
-
 ## Requirements
 
 Install dependencies using Homebrew:
@@ -51,8 +45,6 @@ brew install jq
 
 Recommended font:
 JetBrainsMono Nerd Font
-
----
 
 ## Installation
 
@@ -68,8 +60,6 @@ chmod +x ~/.config/sketchybar/plugins/*
 
 sketchybar --reload
 
----
-
 ## Google Calendar Setup (Optional)
 
 This configuration supports Google Calendar API integration.
@@ -83,8 +73,6 @@ Steps:
 
 ~/.config/sketchybar/google/
 
----
-
 ## Reloading
 
 After editing configuration files:
@@ -95,13 +83,9 @@ If issues occur:
 
 brew services restart sketchybar
 
----
-
 ## Notes
 
 - The main bar shows the next upcoming timed event.
 - Hovering over the calendar item toggles a popup.
 - Styling is transparent with blur.
 - Designed for macOS with Yabai tiling window manager.
-
----
