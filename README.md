@@ -23,6 +23,7 @@ This setup provides a clean, minimal status bar with dynamic updates, Google Cal
 
 ## Folder Structure
 
+```text
 sketchybar_config/
 ├── sketchybarrc
 ├── plugins/
@@ -33,8 +34,9 @@ sketchybar_config/
 │   ├── battery_custom.sh
 │   ├── clock_custom.sh
 │   └── front_app.sh
+```
 
-Note:
+**Note:**  
 The `google/` folder containing API credentials is intentionally excluded from this repository.
 
 ---
