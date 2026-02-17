@@ -1,7 +1,5 @@
 # sketchybar_config
 
-# sketchybar_config
-
 Personal SketchyBar configuration for macOS.
 
 This setup provides a clean, minimal status bar with dynamic updates, Google Calendar integration, and custom system indicators.
