@@ -1,0 +1,177 @@
+#!/bin/bash
+
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+# =========================
+# Bar
+# =========================
+sketchybar --bar \
+  position=top \
+  height=28 \
+  layer=above \
+  color=0x00000000 \
+  padding_left=18 \
+  padding_right=18 \
+  blur_radius=30
+
+# =========================
+# Defaults
+# =========================
+sketchybar --default \
+  icon.font="JetBrainsMono Nerd Font:Regular:14" \
+  label.font="JetBrainsMono Nerd Font:Regular:13" \
+  icon.color=0xffffffff \
+  label.color=0xffffffff \
+  background.height=26 \
+  background.corner_radius=8 \
+  background.color=0x55ffffff \
+  background.drawing=off \
+  icon.padding_left=8 \
+  icon.padding_right=8 \
+  label.padding_left=8 \
+  label.padding_right=12
+
+# =========================
+# Spaces (dynamic + underline)
+# =========================
+SPACE_FONT="JetBrainsMono Nerd Font:Regular:13"
+
+for SID in $(yabai -m query --spaces | jq '.[].index'); do
+  sketchybar --add space space.$SID left \
+             --set space.$SID \
+             associated_space=$SID \
+             icon="$SID" \
+             icon.font="$SPACE_FONT" \
+             label.drawing=off \
+             icon.padding_left=12 \
+             icon.padding_right=12 \
+             background.drawing=off \
+             border.drawing=on \
+             border.width=0 \
+             script="$PLUGIN_DIR/space.sh" \
+             click_script="yabai -m space --focus $SID" \
+             --subscribe space.$SID space_change
+done
+
+# =========================
+# Front App
+# =========================
+sketchybar --add item front_app left \
+           --set front_app \
+           icon.drawing=off \
+           label.font="JetBrainsMono Nerd Font:Semibold:13" \
+           label.padding_left=14 \
+           label.padding_right=14 \
+           script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
+
+# =========================
+# Google Calendar (Timed Only)
+# =========================
+sketchybar --add item gcal right \
+           --set gcal \
+           icon="" \
+           icon.font="JetBrainsMono Nerd Font:Regular:14" \
+           icon.color=0xffffffff \
+           label.color=0xffffffff \
+           update_freq=60 \
+           background.drawing=off \
+           script="$PLUGIN_DIR/google_calendar.py" \
+           popup.drawing=off \
+           click_script="sketchybar --set gcal popup.drawing=toggle; $PLUGIN_DIR/google_calendar.py popup"
+
+for I in 1 2 3 4 5 6 7 8 9 10; do
+  sketchybar --add item gcal.line$I popup.gcal \
+             --set gcal.line$I \
+             label="" \
+             icon.drawing=off \
+             background.drawing=off
+done
+
+sketchybar --set gcal \
+  popup.align=left \
+  popup.horizontal=off \
+  popup.background.color=0xee1e1e1e \
+  popup.background.corner_radius=8 \
+  popup.background.padding_left=12 \
+  popup.background.padding_right=12 \
+  popup.background.padding_top=10 \
+  popup.background.padding_bottom=10
+
+# =========================
+# Clock
+# =========================
+sketchybar --add item clock right \
+           --set clock \
+           update_freq=10 \
+           icon.drawing=off \
+           background.drawing=off \
+           label.padding_left=12 \
+           label.padding_right=14 \
+           script="$PLUGIN_DIR/clock_custom.sh" \
+           env=DATE_FORMAT="%b %e" TIME_FORMAT="%I:%M %p"
+
+# =========================
+# Volume (icon + bar)
+# =========================
+sketchybar --add item volume_icon right \
+           --set volume_icon \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=12 \
+           icon.padding_right=6 \
+           script="$PLUGIN_DIR/volume_custom.sh" \
+           --subscribe volume_icon volume_change
+
+sketchybar --add item volume_bar right \
+           --set volume_bar \
+           label.drawing=off \
+           icon.drawing=off \
+           background.drawing=off \
+           slider.width=44 \
+           slider.background.height=3 \
+           slider.background.corner_radius=2 \
+           slider.background.color=0x30ffffff \
+           slider.fill.color=0xffffffff \
+           script="$PLUGIN_DIR/volume_custom.sh" \
+           --subscribe volume_bar volume_change
+
+# =========================
+# Wi-Fi (no background)
+# =========================
+sketchybar --add item wifi right \
+           --set wifi \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=12 \
+           icon.padding_right=14 \
+           script="$PLUGIN_DIR/wifi_custom.sh" \
+           --subscribe wifi wifi_change
+
+# =========================
+# Bluetooth (no background)
+# =========================
+sketchybar --add item bluetooth right \
+           --set bluetooth \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=12 \
+           icon.padding_right=14 \
+           script="$PLUGIN_DIR/bluetooth_custom.sh"
+
+# =========================
+# Battery (icon + %, no background)
+# =========================
+sketchybar --add item battery right \
+           --set battery \
+           label.drawing=on \
+           background.drawing=off \
+           label.padding_left=6 \
+           label.padding_right=14 \
+           script="$PLUGIN_DIR/battery_custom.sh" \
+           --subscribe battery system_woke power_source_change
+
+# =========================
+# Render
+# =========================
+sketchybar --update
