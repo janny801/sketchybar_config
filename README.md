@@ -23,8 +23,7 @@ This setup provides a clean, minimal status bar with dynamic updates, Google Cal
 
 ## Folder Structure
 
-sketchybar_config
-│
+sketchybar_config/
 ├── sketchybarrc
 ├── plugins/
 │   ├── google_calendar.py
