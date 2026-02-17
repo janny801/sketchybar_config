@@ -50,39 +50,50 @@ JetBrainsMono Nerd Font
 
 1. Copy this repository into:
 
+```bash
 ~/.config/sketchybar/
+```
 
 2. Make plugin scripts executable:
 
+```bash
 chmod +x ~/.config/sketchybar/plugins/*
+```
 
 3. Reload SketchyBar:
 
+```bash
 sketchybar --reload
+```
 
 ## Google Calendar Setup (Optional)
 
 This configuration supports Google Calendar API integration.
 
-Steps:
+### Steps
 
 1. Create a Google Cloud project.
 2. Enable the Google Calendar API.
 3. Generate OAuth credentials.
 4. Place credentials inside:
 
+```bash
 ~/.config/sketchybar/google/
+```
 
 ## Reloading
 
 After editing configuration files:
 
+```bash
 sketchybar --reload
+```
 
 If issues occur:
 
+```bash
 brew services restart sketchybar
-
+```
 ## Notes
 
 - The main bar shows the next upcoming timed event.
