@@ -1,0 +1,1 @@
+# sketchybar_config
