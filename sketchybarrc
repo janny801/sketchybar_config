@@ -32,9 +32,11 @@ sketchybar --default \
   label.padding_right=12
 
 # =========================
-# Spaces (dynamic + underline)
+# Spaces
 # =========================
 SPACE_FONT="JetBrainsMono Nerd Font:Regular:13"
+
+sketchybar --add event yabai_spaces
 
 for SID in $(yabai -m query --spaces | jq '.[].index'); do
   sketchybar --add space space.$SID left \
@@ -46,8 +48,6 @@ for SID in $(yabai -m query --spaces | jq '.[].index'); do
              icon.padding_left=12 \
              icon.padding_right=12 \
              background.drawing=off \
-             border.drawing=on \
-             border.width=0 \
              script="$PLUGIN_DIR/space.sh" \
              click_script="yabai -m space --focus $SID" \
              --subscribe space.$SID space_change
@@ -65,15 +65,92 @@ sketchybar --add item front_app left \
            script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
 
+
 # =========================
-# Google Calendar (Timed Only)
+# RIGHT SIDE
+# Order rule:
+# First added = furthest right
+# Last added = leftmost
+# Desired visual:
+# Calendar → Battery → WiFi → Bluetooth → Volume → Clock
 # =========================
+
+
+# Clock (furthest right)
+sketchybar --add item clock right \
+           --set clock \
+           update_freq=10 \
+           icon.drawing=off \
+           background.drawing=off \
+           label.padding_left=12 \
+           label.padding_right=14 \
+           script="$PLUGIN_DIR/clock_custom.sh" \
+           env=DATE_FORMAT="%A, %b %e" TIME_FORMAT="%I:%M %p"
+
+
+# Volume
+sketchybar --add item volume_icon right \
+           --set volume_icon \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=12 \
+           icon.padding_right=6 \
+           script="$PLUGIN_DIR/volume_custom.sh" \
+           --subscribe volume_icon volume_change
+
+sketchybar --add item volume_bar right \
+           --set volume_bar \
+           label.drawing=off \
+           icon.drawing=off \
+           background.drawing=off \
+           slider.width=44 \
+           slider.background.height=3 \
+           slider.background.corner_radius=2 \
+           slider.background.color=0x30ffffff \
+           slider.fill.color=0xffffffff \
+           script="$PLUGIN_DIR/volume_custom.sh" \
+           --subscribe volume_bar volume_change
+
+
+# Bluetooth
+sketchybar --add item bluetooth right \
+           --set bluetooth \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=12 \
+           icon.padding_right=14 \
+           script="$PLUGIN_DIR/bluetooth_custom.sh"
+
+
+# WiFi
+sketchybar --add item wifi right \
+           --set wifi \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=12 \
+           icon.padding_right=14 \
+           script="$PLUGIN_DIR/wifi_custom.sh" \
+           --subscribe wifi wifi_change
+
+
+# Battery
+sketchybar --add item battery right \
+           --set battery \
+           label.drawing=on \
+           background.drawing=off \
+           label.padding_left=6 \
+           label.padding_right=14 \
+           update_freq=30 \
+           script="$PLUGIN_DIR/battery_custom.sh" \
+           --subscribe battery system_woke power_source_change
+
+
+# Google Calendar (leftmost on right side)
 sketchybar --add item gcal right \
            --set gcal \
-           icon="" \
+           icon="󰃭" \
            icon.font="JetBrainsMono Nerd Font:Regular:14" \
            icon.color=0xffffffff \
-           label.color=0xffffffff \
            update_freq=60 \
            background.drawing=off \
            script="$PLUGIN_DIR/google_calendar.py" \
@@ -98,78 +175,6 @@ sketchybar --set gcal \
   popup.background.padding_top=10 \
   popup.background.padding_bottom=10
 
-# =========================
-# Clock
-# =========================
-sketchybar --add item clock right \
-           --set clock \
-           update_freq=10 \
-           icon.drawing=off \
-           background.drawing=off \
-           label.padding_left=12 \
-           label.padding_right=14 \
-           script="$PLUGIN_DIR/clock_custom.sh" \
-           env=DATE_FORMAT="%b %e" TIME_FORMAT="%I:%M %p"
-
-# =========================
-# Volume (icon + bar)
-# =========================
-sketchybar --add item volume_icon right \
-           --set volume_icon \
-           label.drawing=off \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=6 \
-           script="$PLUGIN_DIR/volume_custom.sh" \
-           --subscribe volume_icon volume_change
-
-sketchybar --add item volume_bar right \
-           --set volume_bar \
-           label.drawing=off \
-           icon.drawing=off \
-           background.drawing=off \
-           slider.width=44 \
-           slider.background.height=3 \
-           slider.background.corner_radius=2 \
-           slider.background.color=0x30ffffff \
-           slider.fill.color=0xffffffff \
-           script="$PLUGIN_DIR/volume_custom.sh" \
-           --subscribe volume_bar volume_change
-
-# =========================
-# Wi-Fi (no background)
-# =========================
-sketchybar --add item wifi right \
-           --set wifi \
-           label.drawing=off \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=14 \
-           script="$PLUGIN_DIR/wifi_custom.sh" \
-           --subscribe wifi wifi_change
-
-# =========================
-# Bluetooth (no background)
-# =========================
-sketchybar --add item bluetooth right \
-           --set bluetooth \
-           label.drawing=off \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=14 \
-           script="$PLUGIN_DIR/bluetooth_custom.sh"
-
-# =========================
-# Battery (icon + %, no background)
-# =========================
-sketchybar --add item battery right \
-           --set battery \
-           label.drawing=on \
-           background.drawing=off \
-           label.padding_left=6 \
-           label.padding_right=14 \
-           script="$PLUGIN_DIR/battery_custom.sh" \
-           --subscribe battery system_woke power_source_change
 
 # =========================
 # Render
