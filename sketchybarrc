@@ -85,7 +85,7 @@ sketchybar --add item front_app left \
 # First added = furthest right
 # Last added = leftmost
 # Desired visual:
-# Calendar → Battery → WiFi → Bluetooth → Volume → Clock
+# Battery → WiFi → Bluetooth → Mic → Volume → Clock
 # =========================
 
 
@@ -171,36 +171,6 @@ sketchybar --add item battery right \
            script="$PLUGIN_DIR/battery_custom.sh" \
            --subscribe battery system_woke power_source_change
 
-
-# Google Calendar (leftmost on right side)
-sketchybar --add item gcal right \
-           --set gcal \
-           icon="󰃭" \
-           icon.font="JetBrainsMono Nerd Font:Regular:14" \
-           icon.color=0xffffffff \
-           update_freq=60 \
-           background.drawing=off \
-           script="$PLUGIN_DIR/google_calendar.py" \
-           popup.drawing=off \
-           click_script="sketchybar --set gcal popup.drawing=toggle; $PLUGIN_DIR/google_calendar.py popup"
-
-for I in 1 2 3 4 5 6 7 8 9 10; do
-  sketchybar --add item gcal.line$I popup.gcal \
-             --set gcal.line$I \
-             label="" \
-             icon.drawing=off \
-             background.drawing=off
-done
-
-sketchybar --set gcal \
-  popup.align=left \
-  popup.horizontal=off \
-  popup.background.color=0xee1e1e1e \
-  popup.background.corner_radius=8 \
-  popup.background.padding_left=12 \
-  popup.background.padding_right=12 \
-  popup.background.padding_top=10 \
-  popup.background.padding_bottom=10
 
 
 # =========================
