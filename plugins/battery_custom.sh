@@ -63,6 +63,27 @@ get_discharging_color() {
   fi
 }
 
+render_discharging() {
+  local b_info
+  b_info=$(pmset -g batt)
+  local pct
+  pct=$(echo "$b_info" | grep -Eo "[0-9]+%" | head -n 1 | tr -d '%')
+  pct="${pct:-100}"
+  
+  local icon
+  icon=$(get_battery_icon "$pct")
+  local color
+  color=$(get_discharging_color "$pct")
+  
+  sketchybar --set battery \
+    icon="$icon" \
+    icon.font="JetBrainsMono Nerd Font:Regular:14" \
+    icon.color="$color" \
+    label="${pct}%" \
+    label.color="$color" \
+    label.drawing=on
+}
+
 run_charging_loop() {
   trap 'rm -f "$ANIM_PID_FILE"; exit 0' SIGTERM SIGINT EXIT
   
@@ -75,6 +96,13 @@ run_charging_loop() {
     local b_info
     b_info=$(pmset -g batt)
     if ! echo "$b_info" | grep -qE "AC Power|charging"; then
+      render_discharging
+      exit 0
+    fi
+    
+    local lpm
+    lpm=$(pmset -g | grep -w "lowpowermode" | awk '{print $2}')
+    if [ "$lpm" = "1" ]; then
       exit 0
     fi
     
@@ -83,6 +111,12 @@ run_charging_loop() {
     pct="${pct:-100}"
     
     for frame in "${frames[@]}"; do
+      # Check power connection before every single frame for immediate response upon unplugging
+      if ! pmset -g batt | grep -qE "AC Power|charging"; then
+        render_discharging
+        exit 0
+      fi
+      
       sketchybar --set battery \
         icon="$frame" \
         icon.font="JetBrainsMono Nerd Font:Regular:14" \
@@ -107,11 +141,16 @@ run_lowpower_loop() {
     local lpm
     lpm=$(pmset -g | grep -w "lowpowermode" | awk '{print $2}')
     if [ "$lpm" != "1" ]; then
+      render_discharging
       exit 0
     fi
     
     local b_info
     b_info=$(pmset -g batt)
+    if echo "$b_info" | grep -qE "AC Power|charging"; then
+      exit 0
+    fi
+    
     local pct
     pct=$(echo "$b_info" | grep -Eo "[0-9]+%" | head -n 1 | tr -d '%')
     pct="${pct:-50}"
@@ -127,6 +166,12 @@ run_lowpower_loop() {
       label.color="$yellow_bright" \
       label.drawing=on
     sleep 0.8
+    
+    lpm=$(pmset -g | grep -w "lowpowermode" | awk '{print $2}')
+    if [ "$lpm" != "1" ]; then
+      render_discharging
+      exit 0
+    fi
     
     sketchybar --animate sin 20 --set battery \
       icon.color="$yellow_dim" \
@@ -190,15 +235,6 @@ case "$TARGET_STATE" in
 
   "discharging")
     kill_animator
-    ICON=$(get_battery_icon "$BATTERY_PERCENT")
-    COLOR=$(get_discharging_color "$BATTERY_PERCENT")
-    
-    sketchybar --set battery \
-      icon="$ICON" \
-      icon.font="JetBrainsMono Nerd Font:Regular:14" \
-      icon.color="$COLOR" \
-      label="${BATTERY_PERCENT}%" \
-      label.color="$COLOR" \
-      label.drawing=on
+    render_discharging
     ;;
 esac
