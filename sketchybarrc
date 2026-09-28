@@ -167,8 +167,9 @@ sketchybar --add item battery right \
            background.drawing=off \
            label.padding_left=6 \
            label.padding_right=14 \
-           update_freq=30 \
+           update_freq=15 \
            script="$PLUGIN_DIR/battery_custom.sh" \
+           click_script="open 'x-apple.systempreferences:com.apple.Battery-Settings.extension'; $PLUGIN_DIR/battery_custom.sh" \
            --subscribe battery system_woke power_source_change
 
 
