@@ -95,7 +95,8 @@ run_charging_loop() {
     
     local b_info
     b_info=$(pmset -g batt)
-    if ! echo "$b_info" | grep -qE "AC Power|charging"; then
+    # Check whole word matching so 'discharging' is never matched
+    if ! echo "$b_info" | grep -q "AC Power"; then
       render_discharging
       exit 0
     fi
@@ -112,7 +113,7 @@ run_charging_loop() {
     
     for frame in "${frames[@]}"; do
       # Check power connection before every single frame for immediate response upon unplugging
-      if ! pmset -g batt | grep -qE "AC Power|charging"; then
+      if ! pmset -g batt | grep -q "AC Power"; then
         render_discharging
         exit 0
       fi
@@ -147,7 +148,7 @@ run_lowpower_loop() {
     
     local b_info
     b_info=$(pmset -g batt)
-    if echo "$b_info" | grep -qE "AC Power|charging"; then
+    if echo "$b_info" | grep -q "AC Power"; then
       exit 0
     fi
     
@@ -188,11 +189,17 @@ if [ -z "$BATTERY_PERCENT" ]; then
   exit 0
 fi
 
-IS_CHARGING=$(echo "$BATTERY_INFO" | grep -E "AC Power|charging")
+# IMPORTANT: Match 'AC Power' only; never do substring 'charging' which matches 'discharging'!
+if echo "$BATTERY_INFO" | grep -q "AC Power"; then
+  IS_CHARGING=true
+else
+  IS_CHARGING=false
+fi
+
 LOW_POWER_MODE=$(pmset -g | grep -w "lowpowermode" | awk '{print $2}')
 
 # 2. Determine target state
-if [ -n "$IS_CHARGING" ]; then
+if [ "$IS_CHARGING" = true ]; then
   TARGET_STATE="charging"
 elif [ "$LOW_POWER_MODE" = "1" ]; then
   TARGET_STATE="lowpower"
