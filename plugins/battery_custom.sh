@@ -1,20 +1,32 @@
 #!/bin/bash
 
-INFO="$(pmset -g batt)"
-PERCENT=$(echo "$INFO" | grep -Eo '[0-9]+%' | tr -d '%')
+BATTERY_INFO=$(pmset -g batt)
 
-CHARGING=0
-echo "$INFO" | grep -qi "AC Power" && CHARGING=1
+BATTERY_PERCENT=$(echo "$BATTERY_INFO" | grep -Eo "[0-9]+%" | tr -d '%')
+CHARGING=$(echo "$BATTERY_INFO" | grep "AC Power")
 
-if [ "$CHARGING" -eq 1 ]; then
+# fallback protection
+if [ -z "$BATTERY_PERCENT" ]; then
+  exit 0
+fi
+
+if [[ "$CHARGING" != "" ]]; then
   ICON="󰂄"
 else
-  if [ "$PERCENT" -ge 80 ]; then ICON="󰁹"
-  elif [ "$PERCENT" -ge 60 ]; then ICON="󰂀"
-  elif [ "$PERCENT" -ge 40 ]; then ICON="󰁾"
-  elif [ "$PERCENT" -ge 20 ]; then ICON="󰁼"
-  else ICON="󰂎"
+  if [ "$BATTERY_PERCENT" -ge 90 ]; then
+    ICON="󰁹"
+  elif [ "$BATTERY_PERCENT" -ge 60 ]; then
+    ICON="󰂀"
+  elif [ "$BATTERY_PERCENT" -ge 30 ]; then
+    ICON="󰁿"
+  else
+    ICON="󰁺"
   fi
 fi
 
-sketchybar --set "$NAME" icon="$ICON" label="${PERCENT}%"
+sketchybar --set battery \
+  icon="$ICON" \
+  icon.font="JetBrainsMono Nerd Font:Regular:14" \
+  icon.color=0xffffffff \
+  label="${BATTERY_PERCENT}%" \
+  label.drawing=on

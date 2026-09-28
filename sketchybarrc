@@ -112,6 +112,20 @@ sketchybar --add item volume_bar right \
            --subscribe volume_bar volume_change
 
 
+# Microphone (MicMute)
+sketchybar --add event mic_change \
+           --add item mic right \
+           --set mic \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=10 \
+           icon.padding_right=10 \
+           update_freq=3 \
+           script="$PLUGIN_DIR/mic_custom.sh" \
+           click_script="osascript -e 'tell application \"System Events\" to key code 42 using command down'; $PLUGIN_DIR/mic_custom.sh" \
+           --subscribe mic mic_change volume_change
+
+
 # Bluetooth
 sketchybar --add item bluetooth right \
            --set bluetooth \
