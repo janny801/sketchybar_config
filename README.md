@@ -8,10 +8,10 @@ This setup provides a clean, minimal status bar with dynamic updates, Google Cal
 
 - Dynamic spaces (Yabai integration)
 - Front application display
-- Google Calendar (next event in bar)
-- Hover popup with full daily schedule
+- Weather & outside temperature (auto-location, minimal Nerd Font condition icons, day/night aware)
+- Microphone indicator (MicMute integration with hardware & software mute)
 - Custom clock
-- Volume indicator
+- Volume indicator & slider
 - Wi-Fi indicator
 - Bluetooth indicator
 - Battery percentage
@@ -23,7 +23,8 @@ This setup provides a clean, minimal status bar with dynamic updates, Google Cal
 sketchybar_config/
 ├── sketchybarrc
 ├── plugins/
-│   ├── google_calendar.py
+│   ├── weather_custom.sh
+│   ├── mic_custom.sh
 │   ├── volume_custom.sh
 │   ├── wifi_custom.sh
 │   ├── bluetooth_custom.sh
