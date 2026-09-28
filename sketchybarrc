@@ -38,10 +38,23 @@ SPACE_FONT="JetBrainsMono Nerd Font:Regular:13"
 
 sketchybar --add event yabai_spaces
 
-for SID in $(yabai -m query --spaces | jq '.[].index'); do
+# Register yabai signals to trigger sketchybar updates on space/window/display focus changes
+yabai -m signal --add label="sketchybar_space_changed" event=space_changed action="sketchybar --trigger space_change" &>/dev/null
+yabai -m signal --add label="sketchybar_window_focused" event=window_focused action="sketchybar --trigger space_change" &>/dev/null
+yabai -m signal --add label="sketchybar_display_changed" event=display_changed action="sketchybar --trigger space_change" &>/dev/null
+yabai -m signal --add label="sketchybar_space_created" event=space_created action="sketchybar --reload" &>/dev/null
+yabai -m signal --add label="sketchybar_space_destroyed" event=space_destroyed action="sketchybar --reload" &>/dev/null
+
+SPACES="$(yabai -m query --spaces 2>/dev/null | jq -r '.[].index' 2>/dev/null)"
+if [ -z "$SPACES" ]; then
+  SPACES="1 2 3"
+fi
+
+for SID in $SPACES; do
   sketchybar --add space space.$SID left \
              --set space.$SID \
              associated_space=$SID \
+             ignore_association=on \
              icon="$SID" \
              icon.font="$SPACE_FONT" \
              label.drawing=off \
@@ -50,7 +63,7 @@ for SID in $(yabai -m query --spaces | jq '.[].index'); do
              background.drawing=off \
              script="$PLUGIN_DIR/space.sh" \
              click_script="yabai -m space --focus $SID" \
-             --subscribe space.$SID space_change
+             --subscribe space.$SID space_change front_app_switched yabai_spaces
 done
 
 # =========================
@@ -194,3 +207,4 @@ sketchybar --set gcal \
 # Render
 # =========================
 sketchybar --update
+sketchybar --trigger space_change

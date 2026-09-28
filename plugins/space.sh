@@ -1,6 +1,24 @@
 #!/bin/bash
 
-if [ "$SELECTED" = "true" ]; then
+SID="${NAME#space.}"
+
+FOCUSED_SPACE="$(yabai -m query --spaces --space 2>/dev/null | jq -r '.index // empty')"
+
+if [ -n "$FOCUSED_SPACE" ]; then
+  if [ "$FOCUSED_SPACE" = "$SID" ]; then
+    IS_ACTIVE=true
+  else
+    IS_ACTIVE=false
+  fi
+else
+  if [ "$SELECTED" = "true" ]; then
+    IS_ACTIVE=true
+  else
+    IS_ACTIVE=false
+  fi
+fi
+
+if [ "$IS_ACTIVE" = "true" ]; then
   sketchybar --set "$NAME" \
     background.drawing=on \
     background.height=2 \
