@@ -10,4 +10,3 @@ else
 fi
 
 sketchybar --set volume_icon icon="$ICON"
-sketchybar --set volume_bar slider.percentage="$VOLUME"
