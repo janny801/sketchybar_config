@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Reset all items on reload to prevent duplicate/stale items
+sketchybar --remove '/.*/'
+
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 
 # =========================
@@ -8,7 +11,7 @@ PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 sketchybar --bar \
   position=top \
   height=28 \
-  layer=above \
+  topmost=on \
   color=0x00000000 \
   padding_left=18 \
   padding_right=18 \
@@ -35,35 +38,26 @@ sketchybar --default \
 # Spaces
 # =========================
 SPACE_FONT="JetBrainsMono Nerd Font:Regular:13"
+SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 
-sketchybar --add event yabai_spaces
-
-# Register yabai signals to trigger sketchybar updates on space/window/display focus changes
+# Register yabai signals if available
 yabai -m signal --add label="sketchybar_space_changed" event=space_changed action="sketchybar --trigger space_change" &>/dev/null
 yabai -m signal --add label="sketchybar_window_focused" event=window_focused action="sketchybar --trigger space_change" &>/dev/null
 yabai -m signal --add label="sketchybar_display_changed" event=display_changed action="sketchybar --trigger space_change" &>/dev/null
-yabai -m signal --add label="sketchybar_space_created" event=space_created action="sketchybar --reload" &>/dev/null
-yabai -m signal --add label="sketchybar_space_destroyed" event=space_destroyed action="sketchybar --reload" &>/dev/null
 
-SPACES="$(yabai -m query --spaces 2>/dev/null | jq -r '.[].index' 2>/dev/null)"
-if [ -z "$SPACES" ]; then
-  SPACES="1 2 3"
-fi
-
-for SID in $SPACES; do
-  sketchybar --add space space.$SID left \
-             --set space.$SID \
-             associated_space=$SID \
-             ignore_association=on \
-             icon="$SID" \
+for sid in "${SPACE_ICONS[@]}"; do
+  sketchybar --add space space.$sid left \
+             --set space.$sid \
+             associated_space=$sid \
+             icon="$sid" \
              icon.font="$SPACE_FONT" \
              label.drawing=off \
              icon.padding_left=12 \
              icon.padding_right=12 \
              background.drawing=off \
              script="$PLUGIN_DIR/space.sh" \
-             click_script="yabai -m space --focus $SID" \
-             --subscribe space.$SID space_change front_app_switched yabai_spaces
+             click_script="$PLUGIN_DIR/space.sh click $sid" \
+             --subscribe space.$sid space_change
 done
 
 # =========================
@@ -97,8 +91,7 @@ sketchybar --add item clock right \
            background.drawing=off \
            label.padding_left=12 \
            label.padding_right=14 \
-           script="$PLUGIN_DIR/clock_custom.sh" \
-           env=DATE_FORMAT="%A, %b %e" TIME_FORMAT="%I:%M %p"
+           script="$PLUGIN_DIR/clock_custom.sh"
 
 
 # Volume
@@ -111,7 +104,7 @@ sketchybar --add item volume_icon right \
            script="$PLUGIN_DIR/volume_custom.sh" \
            --subscribe volume_icon volume_change
 
-sketchybar --add item volume_bar right \
+sketchybar --add slider volume_bar right 44 \
            --set volume_bar \
            label.drawing=off \
            icon.drawing=off \
@@ -120,7 +113,7 @@ sketchybar --add item volume_bar right \
            slider.background.height=3 \
            slider.background.corner_radius=2 \
            slider.background.color=0x30ffffff \
-           slider.fill.color=0xffffffff \
+           slider.highlight_color=0xffffffff \
            script="$PLUGIN_DIR/volume_custom.sh" \
            --subscribe volume_bar volume_change
 
