@@ -11,7 +11,7 @@ PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 sketchybar --bar \
   position=top \
   height=28 \
-  topmost=on \
+  topmost=window \
   color=0x00000000 \
   padding_left=18 \
   padding_right=18 \
@@ -56,7 +56,6 @@ for sid in "${SPACE_ICONS[@]}"; do
              icon.padding_right=12 \
              background.drawing=off \
              script="$PLUGIN_DIR/space.sh" \
-             click_script="$PLUGIN_DIR/space.sh click $sid" \
              --subscribe space.$sid space_change
 done
 
@@ -115,7 +114,6 @@ sketchybar --add event mic_change \
            icon.padding_right=10 \
            update_freq=3 \
            script="$PLUGIN_DIR/mic_custom.sh" \
-           click_script="osascript -e 'tell application \"System Events\" to key code 42 using command down'; $PLUGIN_DIR/mic_custom.sh" \
            --subscribe mic mic_change volume_change
 
 
@@ -149,7 +147,6 @@ sketchybar --add item battery right \
            label.padding_right=14 \
            update_freq=15 \
            script="$PLUGIN_DIR/battery_custom.sh" \
-           click_script="open 'x-apple.systempreferences:com.apple.Battery-Settings.extension'; $PLUGIN_DIR/battery_custom.sh" \
            --subscribe battery system_woke power_source_change
 
 
@@ -168,8 +165,7 @@ sketchybar --add event weather_update \
            label.padding_right=14 \
            update_freq=900 \
            script="$PLUGIN_DIR/weather_custom.sh" \
-           click_script="open -a Weather; $PLUGIN_DIR/weather_custom.sh refresh" \
-           --subscribe weather system_woke weather_update mouse.clicked
+           --subscribe weather system_woke weather_update
 
 
 
