@@ -14,6 +14,7 @@ This setup provides a clean, minimal status bar with dynamic updates, Google Cal
 - Volume indicator & slider
 - Wi-Fi indicator
 - Bluetooth indicator
+- Focus status indicator (shown only while a Focus mode is active)
 - Battery percentage
 - Minimal transparent styling
 
@@ -95,6 +96,11 @@ If issues occur:
 ```bash
 brew services restart sketchybar
 ```
+
+The Focus indicator reads macOS's protected Focus assertion database. If it
+never appears while Focus is enabled, grant Full Disk Access to the app that
+runs SketchyBar (and to your terminal while testing), then reload SketchyBar.
+
 ## Notes
 
 - The main bar shows the next upcoming timed event.

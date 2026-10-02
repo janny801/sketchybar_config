@@ -78,7 +78,7 @@ sketchybar --add item front_app left \
 # First added = furthest right
 # Last added = leftmost
 # Desired visual:
-# Weather → Battery → WiFi → Bluetooth → Mic → Volume → Clock
+# Weather → Focus → Battery → WiFi → Bluetooth → Mic → Volume → Clock
 # =========================
 
 
@@ -148,6 +148,18 @@ sketchybar --add item battery right \
            update_freq=15 \
            script="$PLUGIN_DIR/battery_custom.sh" \
            --subscribe battery system_woke power_source_change
+
+
+# Focus
+sketchybar --add item focus right \
+           --set focus \
+           drawing=off \
+           label.drawing=off \
+           background.drawing=off \
+           icon.padding_left=12 \
+           icon.padding_right=14 \
+           update_freq=5 \
+           script="$PLUGIN_DIR/focus_custom.sh"
 
 
 # Weather (outside condition & temperature)
