@@ -97,10 +97,10 @@ If issues occur:
 brew services restart sketchybar
 ```
 
-The Focus indicator mirrors macOS's native `Control Center,Focus` menu bar
-item, so it uses Apple's own icon and disappears when no Focus mode is active.
-SketchyBar needs Screen Recording permission to mirror native menu bar items;
-grant it to SketchyBar in System Settings > Privacy & Security, then reload
+The Focus indicator reads macOS's Focus assertion database and uses Apple's
+`moon.fill` glyph. It disappears when no Focus mode is active. SketchyBar
+needs Full Disk Access to read the protected database; grant it to the
+SketchyBar executable in System Settings > Privacy & Security, then reload
 SketchyBar.
 
 ## Notes

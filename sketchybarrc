@@ -170,10 +170,13 @@ sketchybar --add event weather_update \
 
 # Focus
 # Added after Weather so it appears immediately to Weather's left.
-sketchybar --add alias "Control Center,Focus" right \
-           --set "Control Center,Focus" \
-           alias.scale=0.8 \
-           background.drawing=off
+sketchybar --add item focus right \
+           --set focus \
+           drawing=off \
+           label.drawing=off \
+           background.drawing=off \
+           update_freq=5 \
+           script="$PLUGIN_DIR/focus_custom.sh"
 
 
 
