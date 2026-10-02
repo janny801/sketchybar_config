@@ -97,9 +97,11 @@ If issues occur:
 brew services restart sketchybar
 ```
 
-The Focus indicator reads macOS's protected Focus assertion database. If it
-never appears while Focus is enabled, grant Full Disk Access to the app that
-runs SketchyBar (and to your terminal while testing), then reload SketchyBar.
+The Focus indicator mirrors macOS's native `Control Center,Focus` menu bar
+item, so it uses Apple's own icon and disappears when no Focus mode is active.
+SketchyBar needs Screen Recording permission to mirror native menu bar items;
+grant it to SketchyBar in System Settings > Privacy & Security, then reload
+SketchyBar.
 
 ## Notes
 
