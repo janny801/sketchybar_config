@@ -154,9 +154,7 @@ sketchybar --add item battery right \
 sketchybar --add alias "Control Center,Focus" right \
            --set "Control Center,Focus" \
            alias.scale=0.8 \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=14
+           background.drawing=off
 
 
 # Weather (outside condition & temperature)
