@@ -78,7 +78,7 @@ sketchybar --add item front_app left \
 # First added = furthest right
 # Last added = leftmost
 # Desired visual:
-# Weather → Focus → Battery → WiFi → Bluetooth → Mic → Volume → Clock
+# Focus → Weather → Battery → WiFi → Bluetooth → Mic → Volume → Clock
 # =========================
 
 
@@ -150,13 +150,6 @@ sketchybar --add item battery right \
            --subscribe battery system_woke power_source_change
 
 
-# Focus
-sketchybar --add alias "Control Center,Focus" right \
-           --set "Control Center,Focus" \
-           alias.scale=0.8 \
-           background.drawing=off
-
-
 # Weather (outside condition & temperature)
 sketchybar --add event weather_update \
            --add item weather right \
@@ -173,6 +166,14 @@ sketchybar --add event weather_update \
            update_freq=900 \
            script="$PLUGIN_DIR/weather_custom.sh" \
            --subscribe weather system_woke weather_update
+
+
+# Focus
+# Added after Weather so it appears immediately to Weather's left.
+sketchybar --add alias "Control Center,Focus" right \
+           --set "Control Center,Focus" \
+           alias.scale=0.8 \
+           background.drawing=off
 
 
 
