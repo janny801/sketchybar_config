@@ -7,8 +7,8 @@ if [ -r "$ASSERTIONS_FILE" ] && jq -e '
 ' "$ASSERTIONS_FILE" >/dev/null 2>&1; then
   sketchybar --set "$NAME" \
     drawing=on \
-    icon="􀆺" \
-    icon.font="SF Pro:Regular:14" \
+    icon="󰽥" \
+    icon.font="JetBrainsMono Nerd Font:Regular:16" \
     icon.color=0xffffffff
 else
   sketchybar --set "$NAME" drawing=off
