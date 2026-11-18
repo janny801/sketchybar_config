@@ -237,7 +237,7 @@ sketchybar --add item memory right \
 
 
 # Memory Live Graph (Dark / Green Graph Pill - furthest left of memory block)
-sketchybar --add graph memory_graph right 40 \
+sketchybar --add graph memory_graph right 70 \
            --set memory_graph \
            background.drawing=on \
            background.color=0xff343441 \
