@@ -8,32 +8,42 @@ This setup provides a clean, minimal status bar with dynamic updates, Google Cal
 
 ## Features
 
-- Dynamic spaces (Yabai integration)
-- Front application display
-- Weather & outside temperature (auto-location, minimal Nerd Font condition icons, day/night aware)
-- Microphone indicator (MicMute integration with hardware & software mute)
-- Custom clock
-- Volume indicator & slider
-- Wi-Fi indicator
-- Bluetooth indicator
-- Focus status indicator (shown only while a Focus mode is active)
-- Battery percentage
-- Minimal transparent styling
+- **Dynamic Spaces**: Yabai integration with active space highlighting and icon badges.
+- **Yabai Layout Mode**: Live indicator for `[BSP]` (automatic tiling) vs `[FLOAT]` mode with click-to-toggle support.
+- **Front Application**: Real-time focused app display in an accent pill.
+- **RAM Usage & Live Meter**: Memory used vs total formatted text pill plus real-time visual sparkline/meter graph.
+- **Weather & Temperature**: Auto-location, minimal Nerd Font weather condition icons, day/night awareness.
+- **Microphone**: MicMute integration displaying live hardware and software mute status.
+- **Bluetooth & Wi-Fi**: Dedicated status pills with connection detection.
+- **Battery**: Custom battery percentage and dynamic charging/discharging state icons.
+- **Volume**: Output volume indicator synced to system audio changes.
+- **Focus Mode**: Focus mode status (auto-hides when no Focus is active).
+- **Clock**: Formatted time and date pill.
+- **Google Calendar (Optional)**: Next upcoming event display with hover popup details.
+- **Aesthetic**: Minimalist transparent bar with blur and colorful rounded pills.
 
 ## Folder Structure
 
 ```text
 sketchybar_config/
+├── assets/
+│   └── preview.png
 ├── sketchybarrc
 ├── plugins/
-│   ├── weather_custom.sh
-│   ├── mic_custom.sh
-│   ├── volume_custom.sh
-│   ├── wifi_custom.sh
-│   ├── bluetooth_custom.sh
 │   ├── battery_custom.sh
+│   ├── bluetooth_custom.sh
 │   ├── clock_custom.sh
-│   └── front_app.sh
+│   ├── focus_custom.sh
+│   ├── front_app.sh
+│   ├── google_calendar.py
+│   ├── google_calendar.sh
+│   ├── mic_custom.sh
+│   ├── ram_custom.sh
+│   ├── space.sh
+│   ├── volume_custom.sh
+│   ├── weather_custom.sh
+│   ├── wifi_custom.sh
+│   └── yabai_mode.sh
 ```
 
 **Note:**  
