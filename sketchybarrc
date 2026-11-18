@@ -245,17 +245,19 @@ sketchybar --add item memory right \
            script="$PLUGIN_DIR/ram_custom.sh"
 
 
-# Memory Live Graph (Dark / Green Graph Pill - furthest left of memory block)
-sketchybar --add graph memory_graph right 130 \
+# Memory Live Meter Bars (Dark / Green Sparkline Bars Pill - Option C)
+sketchybar --add item memory_graph right \
            --set memory_graph \
            background.drawing=on \
            background.color=0xff343441 \
            background.corner_radius=4 \
            background.height=24 \
            icon.drawing=off \
-           label.drawing=off \
-           graph.color=0xff69d084 \
-           graph.fill_color=0x4469d084
+           label.drawing=on \
+           label.color=0xff69d084 \
+           label.font="JetBrainsMono Nerd Font:Regular:13" \
+           label.padding_left=8 \
+           label.padding_right=8
 
 
 
