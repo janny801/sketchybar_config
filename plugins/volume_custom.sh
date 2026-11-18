@@ -1,12 +1,14 @@
 #!/bin/bash
 
-VOLUME="$(osascript -e 'output volume of (get volume settings)')"
-MUTED="$(osascript -e 'output muted of (get volume settings)')"
+VOLUME="$(osascript -e 'output volume of (get volume settings)' 2>/dev/null || echo 0)"
+MUTED="$(osascript -e 'output muted of (get volume settings)' 2>/dev/null || echo false)"
 
 if [[ "$MUTED" == "true" || "$VOLUME" == "0" ]]; then
-  ICON=""
+  ICON="󰖁"
+  LABEL="muted"
 else
-  ICON=""
+  ICON="󰕾"
+  LABEL="${VOLUME}%"
 fi
 
-sketchybar --set volume_icon icon="$ICON"
+sketchybar --set "$NAME" icon="$ICON" label="$LABEL"
