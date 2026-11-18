@@ -2,7 +2,7 @@
 
 Personal SketchyBar configuration for macOS.
 
-![SketchyBar Preview](assets/preview.png)
+![SketchyBar Preview](assets/preview.jpg)
 
 This setup provides a clean, minimal status bar with dynamic updates, Google Calendar integration, and custom system indicators.
 
