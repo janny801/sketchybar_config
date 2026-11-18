@@ -78,7 +78,7 @@ sketchybar --add item front_app left \
 # First added = furthest right
 # Last added = leftmost
 # Desired visual (Pill Theme):
-# Focus → Weather → Battery → WiFi → Bluetooth → Mic → Memory Graph → Memory → Volume → Clock
+# Memory Graph → Memory → Focus → Weather → Battery → WiFi → Bluetooth → Mic → Volume → Clock
 # =========================
 
 
@@ -118,38 +118,6 @@ sketchybar --add item volume_icon right \
            label.padding_right=10 \
            script="$PLUGIN_DIR/volume_custom.sh" \
            --subscribe volume_icon volume_change
-
-
-# Memory Text (Lavender Pill)
-sketchybar --add item memory right \
-           --set memory \
-           label.drawing=on \
-           icon.drawing=on \
-           icon.color=0xff24273a \
-           label.color=0xff24273a \
-           background.drawing=on \
-           background.color=0xffdbc3fc \
-           background.corner_radius=4 \
-           background.height=24 \
-           icon.padding_left=8 \
-           icon.padding_right=4 \
-           label.padding_left=4 \
-           label.padding_right=10 \
-           update_freq=3 \
-           script="$PLUGIN_DIR/ram_custom.sh"
-
-
-# Memory Live Graph (Dark / Green Graph Pill)
-sketchybar --add graph memory_graph right 40 \
-           --set memory_graph \
-           background.drawing=on \
-           background.color=0xff343441 \
-           background.corner_radius=4 \
-           background.height=24 \
-           icon.drawing=off \
-           label.drawing=off \
-           graph.color=0xff69d084 \
-           graph.fill_color=0x4469d084
 
 
 # Microphone (MicMute - Coral / Red Pill)
@@ -247,6 +215,38 @@ sketchybar --add item focus right \
            icon.padding_right=8 \
            update_freq=5 \
            script="$PLUGIN_DIR/focus_custom.sh"
+
+
+# Memory Text (Lavender Pill)
+sketchybar --add item memory right \
+           --set memory \
+           label.drawing=on \
+           icon.drawing=on \
+           icon.color=0xff24273a \
+           label.color=0xff24273a \
+           background.drawing=on \
+           background.color=0xffdbc3fc \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=4 \
+           label.padding_left=4 \
+           label.padding_right=10 \
+           update_freq=3 \
+           script="$PLUGIN_DIR/ram_custom.sh"
+
+
+# Memory Live Graph (Dark / Green Graph Pill - furthest left of memory block)
+sketchybar --add graph memory_graph right 40 \
+           --set memory_graph \
+           background.drawing=on \
+           background.color=0xff343441 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.drawing=off \
+           label.drawing=off \
+           graph.color=0xff69d084 \
+           graph.fill_color=0x4469d084
 
 
 
