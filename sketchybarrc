@@ -41,9 +41,9 @@ SPACE_FONT="JetBrainsMono Nerd Font:Regular:13"
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 
 # Register yabai signals if available
-yabai -m signal --add label="sketchybar_space_changed" event=space_changed action="sketchybar --trigger space_change" &>/dev/null
-yabai -m signal --add label="sketchybar_window_focused" event=window_focused action="sketchybar --trigger space_change" &>/dev/null
-yabai -m signal --add label="sketchybar_display_changed" event=display_changed action="sketchybar --trigger space_change" &>/dev/null
+yabai -m signal --add label="sketchybar_space_changed" event=space_changed action="sketchybar --trigger space_change --trigger yabai_mode_update" &>/dev/null
+yabai -m signal --add label="sketchybar_window_focused" event=window_focused action="sketchybar --trigger space_change --trigger yabai_mode_update" &>/dev/null
+yabai -m signal --add label="sketchybar_display_changed" event=display_changed action="sketchybar --trigger space_change --trigger yabai_mode_update" &>/dev/null
 
 for sid in "${SPACE_ICONS[@]}"; do
   sketchybar --add space space.$sid left \
@@ -58,6 +58,27 @@ for sid in "${SPACE_ICONS[@]}"; do
              script="$PLUGIN_DIR/space.sh" \
              --subscribe space.$sid space_change
 done
+
+# =========================
+# Yabai Mode
+# =========================
+sketchybar --add event yabai_mode_update \
+           --add item yabai_mode left \
+           --set yabai_mode \
+           icon.drawing=on \
+           icon.font="JetBrainsMono Nerd Font:Regular:14" \
+           label.drawing=on \
+           label.font="JetBrainsMono Nerd Font:Bold:11" \
+           background.drawing=on \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=4 \
+           label.padding_left=2 \
+           label.padding_right=8 \
+           click_script="yabai -m space --layout \$(yabai -m query --spaces --space | jq -r 'if .type == \"bsp\" then \"float\" else \"bsp\" end') && sketchybar --trigger yabai_mode_update" \
+           script="$PLUGIN_DIR/yabai_mode.sh" \
+           --subscribe yabai_mode space_change yabai_mode_update front_app_switched
 
 # =========================
 # Front App
