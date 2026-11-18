@@ -133,8 +133,8 @@ run_charging_loop() {
 run_lowpower_loop() {
   trap 'rm -f "$ANIM_PID_FILE"; exit 0' SIGTERM SIGINT EXIT
   
-  local yellow_bright="0xffffcc00"
-  local yellow_dim="0x66ffcc00"
+  local frames=("󰢜" "󰂆" "󰂈" "󰢝" "󰂊" "󰂅")
+  local yellow="0xffffcc00"
   
   while true; do
     pgrep -x sketchybar >/dev/null || exit 0
@@ -156,28 +156,25 @@ run_lowpower_loop() {
     pct=$(echo "$b_info" | grep -Eo "[0-9]+%" | head -n 1 | tr -d '%')
     pct="${pct:-50}"
     
-    local icon
-    icon=$(get_battery_icon "$pct")
-    
-    sketchybar --animate sin 20 --set battery \
-      icon="$icon" \
-      icon.font="JetBrainsMono Nerd Font:Regular:14" \
-      icon.color="$yellow_bright" \
-      label="${pct}%" \
-      label.color="$yellow_bright" \
-      label.drawing=on
-    sleep 0.8
-    
-    lpm=$(pmset -g | grep -w "lowpowermode" | awk '{print $2}')
-    if [ "$lpm" != "1" ]; then
-      render_discharging
-      exit 0
-    fi
-    
-    sketchybar --animate sin 20 --set battery \
-      icon.color="$yellow_dim" \
-      label.color="$yellow_dim"
-    sleep 0.8
+    for frame in "${frames[@]}"; do
+      lpm=$(pmset -g | grep -w "lowpowermode" | awk '{print $2}')
+      if [ "$lpm" != "1" ]; then
+        render_discharging
+        exit 0
+      fi
+      if pmset -g batt | grep -q "AC Power"; then
+        exit 0
+      fi
+      
+      sketchybar --set battery \
+        icon="$frame" \
+        icon.font="JetBrainsMono Nerd Font:Regular:14" \
+        icon.color="$yellow" \
+        label="${pct}%" \
+        label.color="$yellow" \
+        label.drawing=on
+      sleep 0.5
+    done
   done
 }
 
