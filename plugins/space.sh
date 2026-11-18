@@ -43,21 +43,40 @@ else
   fi
 fi
 
+# Palette for space pill backgrounds
+SPACE_COLORS=(
+  "0xff8f47f6" # 1: Purple
+  "0xffa7d6f6" # 2: Sky Blue
+  "0xffdbc3fc" # 3: Lavender
+  "0xfff7fcbd" # 4: Soft Yellow
+  "0xfff6c177" # 5: Peach
+  "0xffeb6f92" # 6: Rose
+  "0xff9ccfd8" # 7: Foam
+  "0xffc4a7e7" # 8: Iris
+  "0xffea9a97" # 9: Coral
+  "0xffe0def4" # 10: Frost
+)
+
+SID="${NAME#space.}"
+COLOR_INDEX=$(( (SID - 1) % 10 ))
+SPACE_COLOR="${SPACE_COLORS[$COLOR_INDEX]}"
+
 if [ "$IS_ACTIVE" = "true" ]; then
   sketchybar --set "$NAME" \
     background.drawing=on \
-    background.height=2 \
-    background.y_offset=12 \
-    background.corner_radius=1 \
-    background.color=0xffffffff \
-    icon.background.drawing=on \
-    icon.background.color=0x22ffffff \
-    icon.background.corner_radius=6 \
-    icon.background.height=18 \
-    icon.background.padding_left=6 \
-    icon.background.padding_right=6
+    background.color="$SPACE_COLOR" \
+    background.corner_radius=4 \
+    background.height=24 \
+    background.y_offset=0 \
+    icon.color=0xff24273a \
+    icon.background.drawing=off
 else
   sketchybar --set "$NAME" \
-    background.drawing=off \
+    background.drawing=on \
+    background.color=0xff343441 \
+    background.corner_radius=4 \
+    background.height=24 \
+    background.y_offset=0 \
+    icon.color=0xff888899 \
     icon.background.drawing=off
 fi
