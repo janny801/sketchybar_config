@@ -77,93 +77,142 @@ sketchybar --add item front_app left \
 # Order rule:
 # First added = furthest right
 # Last added = leftmost
-# Desired visual:
-# Focus → Weather → Memory → Battery → WiFi → Bluetooth → Mic → Volume → Clock
+# Desired visual (Pill Theme):
+# Focus → Weather → Battery → WiFi → Bluetooth → Mic → Memory Graph → Memory → Volume → Clock
 # =========================
 
 
-# Clock (furthest right)
+# Clock (furthest right - Soft Yellow Pill)
 sketchybar --add item clock right \
            --set clock \
            update_freq=10 \
-           icon.drawing=off \
-           background.drawing=off \
-           label.padding_left=12 \
-           label.padding_right=14 \
+           icon.drawing=on \
+           icon="󰥔" \
+           icon.color=0xff24273a \
+           label.color=0xff24273a \
+           background.drawing=on \
+           background.color=0xfff7fcbd \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=4 \
+           label.padding_left=4 \
+           label.padding_right=10 \
            script="$PLUGIN_DIR/clock_custom.sh"
 
 
-# Volume
+# Volume (Sky Blue Pill)
 sketchybar --add item volume_icon right \
            --set volume_icon \
-           label.drawing=off \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=14 \
+           label.drawing=on \
+           icon.drawing=on \
+           icon.color=0xff24273a \
+           label.color=0xff24273a \
+           background.drawing=on \
+           background.color=0xffa7d6f6 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=4 \
+           label.padding_left=4 \
+           label.padding_right=10 \
            script="$PLUGIN_DIR/volume_custom.sh" \
            --subscribe volume_icon volume_change
 
 
-# Microphone (MicMute)
+# Memory Text (Lavender Pill)
+sketchybar --add item memory right \
+           --set memory \
+           label.drawing=on \
+           icon.drawing=on \
+           icon.color=0xff24273a \
+           label.color=0xff24273a \
+           background.drawing=on \
+           background.color=0xffdbc3fc \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=4 \
+           label.padding_left=4 \
+           label.padding_right=10 \
+           update_freq=3 \
+           script="$PLUGIN_DIR/ram_custom.sh"
+
+
+# Memory Live Graph (Dark / Green Graph Pill)
+sketchybar --add graph memory_graph right 40 \
+           --set memory_graph \
+           background.drawing=on \
+           background.color=0xff343441 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.drawing=off \
+           label.drawing=off \
+           graph.color=0xff69d084 \
+           graph.fill_color=0x4469d084
+
+
+# Microphone (MicMute - Coral / Red Pill)
 sketchybar --add event mic_change \
            --add item mic right \
            --set mic \
            label.drawing=off \
-           background.drawing=off \
-           icon.padding_left=10 \
-           icon.padding_right=10 \
+           background.drawing=on \
+           background.color=0xff343441 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=8 \
            update_freq=3 \
            script="$PLUGIN_DIR/mic_custom.sh" \
            --subscribe mic mic_change volume_change
 
 
-# Bluetooth
+# Bluetooth (Slate Blue Pill)
 sketchybar --add item bluetooth right \
            --set bluetooth \
            label.drawing=off \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=14 \
+           background.drawing=on \
+           background.color=0xff343441 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=8 \
            script="$PLUGIN_DIR/bluetooth_custom.sh"
 
 
-# WiFi
+# WiFi (Dark Pill)
 sketchybar --add item wifi right \
            --set wifi \
            label.drawing=off \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=14 \
+           background.drawing=on \
+           background.color=0xff343441 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=8 \
            script="$PLUGIN_DIR/wifi_custom.sh" \
            --subscribe wifi wifi_change
 
 
-# Battery
+# Battery (Cyan Pill)
 sketchybar --add item battery right \
            --set battery \
            label.drawing=on \
-           background.drawing=off \
-           label.padding_left=6 \
-           label.padding_right=14 \
+           background.drawing=on \
+           background.color=0xff284068 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=4 \
+           label.padding_left=4 \
+           label.padding_right=8 \
            update_freq=15 \
            script="$PLUGIN_DIR/battery_custom.sh" \
            --subscribe battery system_woke power_source_change
 
 
-# Memory (RAM)
-sketchybar --add item memory right \
-           --set memory \
-           label.drawing=on \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=6 \
-           label.padding_left=0 \
-           label.padding_right=14 \
-           update_freq=5 \
-           script="$PLUGIN_DIR/ram_custom.sh"
-
-
-# Weather (outside condition & temperature)
+# Weather (outside condition & temperature - Purple Pill)
 sketchybar --add event weather_update \
            --add item weather right \
            --set weather \
@@ -171,23 +220,31 @@ sketchybar --add event weather_update \
            label.font="JetBrainsMono Nerd Font:Regular:13" \
            icon.color=0xffffffff \
            label.color=0xffffffff \
-           background.drawing=off \
-           icon.padding_left=12 \
-           icon.padding_right=6 \
-           label.padding_left=0 \
-           label.padding_right=14 \
+           background.drawing=on \
+           background.color=0xff8f47f6 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=4 \
+           label.padding_left=4 \
+           label.padding_right=8 \
            update_freq=900 \
            script="$PLUGIN_DIR/weather_custom.sh" \
            --subscribe weather system_woke weather_update
 
 
-# Focus
+# Focus (Moon icon pill)
 # Added after Weather so it appears immediately to Weather's left.
 sketchybar --add item focus right \
            --set focus \
            drawing=off \
            label.drawing=off \
-           background.drawing=off \
+           background.drawing=on \
+           background.color=0xff343441 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=8 \
            update_freq=5 \
            script="$PLUGIN_DIR/focus_custom.sh"
 
