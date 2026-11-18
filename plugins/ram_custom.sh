@@ -3,7 +3,7 @@
 # Calculate memory usage matching macOS Activity Monitor
 # Used = App Memory (Anonymous - Purgeable) + Wired + Compressed
 
-PERCENTAGE=$(python3 -c "
+MEM_USAGE=$(python3 -c "
 import subprocess, re
 
 try:
@@ -28,12 +28,15 @@ try:
     wired = stats.get('Pages wired down', 0) * page_size
     compressed = stats.get('Pages occupied by compressor', 0) * page_size
     used_bytes = app_mem + wired + compressed
-    pct = round((used_bytes / total_bytes) * 100)
-    print(pct)
+
+    used_gb = used_bytes / (1024**3)
+    total_gb = total_bytes / (1024**3)
+
+    print(f'{used_gb:.1f}/{total_gb:.0f} GB')
 except Exception:
-    print(0)
+    print('0/0 GB')
 ")
 
 ICON="󰍛"
 
-sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%"
+sketchybar --set "$NAME" icon="$ICON" label="$MEM_USAGE"
