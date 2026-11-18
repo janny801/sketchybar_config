@@ -3,7 +3,7 @@
 # Calculate memory usage matching macOS Activity Monitor
 # Used = App Memory (Anonymous - Purgeable) + Wired + Compressed
 
-MEM_USAGE=$(python3 -c "
+STATS=$(python3 -c "
 import subprocess, re
 
 try:
@@ -29,14 +29,20 @@ try:
     compressed = stats.get('Pages occupied by compressor', 0) * page_size
     used_bytes = app_mem + wired + compressed
 
+    ratio = max(0.0, min(1.0, used_bytes / total_bytes))
     used_gb = used_bytes / (1024**3)
     total_gb = total_bytes / (1024**3)
 
-    print(f'{used_gb:.1f}/{total_gb:.0f} GB')
+    print(f'{ratio:.3f} {used_gb:.2f}G/{total_gb:.2f}G')
 except Exception:
-    print('0/0 GB')
+    print('0.000 0.00G/0.00G')
 ")
+
+RATIO=$(echo "$STATS" | awk '{print $1}')
+MEM_STR=$(echo "$STATS" | awk '{print $2}')
 
 ICON="󰍛"
 
-sketchybar --set "$NAME" icon="$ICON" label="$MEM_USAGE"
+# Update memory text and push live data point to memory_graph
+sketchybar --set "$NAME" icon="$ICON" label="Mem used: $MEM_STR" \
+           --push memory_graph "$RATIO"
