@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Kill existing background animator on reload
-pkill -f "bar_animator.sh" 2>/dev/null || true
-
 # Reset all items on reload to prevent duplicate/stale items
 sketchybar --remove '/.*/'
 
@@ -269,6 +266,3 @@ sketchybar --add item memory_graph right \
 # =========================
 sketchybar --update
 sketchybar --trigger space_change
-
-# Start animated synthwave gradient bar background
-"$PLUGIN_DIR/bar_animator.sh" &
