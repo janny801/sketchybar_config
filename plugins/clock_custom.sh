@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Format matching screenshot: 18:14 06/10/2021
-TIME_STRING=$(date +"%H:%M %m/%d/%Y")
+# 12-hour format: 12:03 AM 11/18/2026
+TIME_STRING=$(date +"%I:%M %p %m/%d/%Y")
 
 sketchybar --set "$NAME" icon="󰥔" label="$TIME_STRING"
