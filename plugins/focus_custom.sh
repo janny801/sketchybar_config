@@ -10,7 +10,7 @@ if [ -r "$ASSERTIONS_FILE" ] && jq -e '
     icon="󰽥" \
     icon.font="JetBrainsMono Nerd Font:Regular:16" \
     icon.color=0xff24273a \
-    background.color=0xffffa559
+    background.color=0xffa7d6f6
 else
   sketchybar --set "$NAME" drawing=off
 fi
