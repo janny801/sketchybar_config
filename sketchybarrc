@@ -231,12 +231,20 @@ sketchybar --add event weather_update \
            --subscribe weather system_woke weather_update
 
 
-# Focus (Native Control Center Focus Alias)
+# Focus (Moon icon pill)
 # Added after Weather so it appears immediately to Weather's left.
-sketchybar --add alias "Control Center,Focus" right \
-           --set "Control Center,Focus" \
-           alias.scale=0.8 \
-           background.drawing=off
+sketchybar --add item focus right \
+           --set focus \
+           drawing=off \
+           label.drawing=off \
+           background.drawing=on \
+           background.color=0xff343441 \
+           background.corner_radius=4 \
+           background.height=24 \
+           icon.padding_left=8 \
+           icon.padding_right=8 \
+           update_freq=3 \
+           script="$PLUGIN_DIR/focus_custom.sh"
 
 
 # Memory Text (Lavender Pill)
